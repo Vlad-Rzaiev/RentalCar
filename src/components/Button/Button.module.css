@@ -1,0 +1,24 @@
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  line-height: 125%;
+  color: #fff;
+  background-color: #3470ff;
+  border: none;
+  border-radius: 12px;
+  margin: 0 auto;
+  transition: background-color 250ms linear;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #0b44cd;
+}
+
+.small {
+  padding: 12px 51px;
+}
+
+.large {
+  padding: 12px 99px;
+}

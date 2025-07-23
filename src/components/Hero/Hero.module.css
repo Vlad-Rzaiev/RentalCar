@@ -1,0 +1,65 @@
+.heroWrapper {
+  background-color: #8e929a;
+  background-image: url("../../assets/img/hero.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  max-width: 375px;
+  margin: 0 auto;
+}
+
+@media screen and (min-resolution: 192dpi) {
+  .heroWrapper {
+    background-image: url("../../assets/img/hero@2x.webp");
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .heroWrapper {
+    max-width: 768px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .heroWrapper {
+    max-width: 1440px;
+  }
+}
+
+.container {
+  text-align: center;
+  min-width: 320px;
+  padding: 60px 16px 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    min-width: 400px;
+    padding: 200px 120px 30px 119px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    min-width: 783px;
+    padding: 436px 329px 60px 328px;
+  }
+}
+
+.title {
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 120%;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.text {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 133%;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 40px;
+}

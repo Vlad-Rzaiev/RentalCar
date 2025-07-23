@@ -1,0 +1,16 @@
+.nav {
+  display: flex;
+  gap: 32px;
+}
+
+.navLink {
+  font-weight: 500;
+  line-height: 125%;
+  text-align: center;
+  color: #101828;
+  padding: 24px 0;
+}
+
+.active {
+  color: #0b44cd;
+}

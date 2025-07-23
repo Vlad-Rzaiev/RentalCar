@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import css from "./NotFoundPage.module.css";
+import Section from "../../components/Section/Section";
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
@@ -22,16 +23,18 @@ export const NotFoundPage = () => {
   }, [navigate]);
 
   return (
-    <div className={css.container}>
-      <h2 className={css.title}>404</h2>
-      <p className={css.text}>Ooops! Page Not Found!</p>
-      <p className={css.text}>
-        ⏳ You will be automatically redirected to Home Page for {seconds}{" "}
-        seconds...
-      </p>
-      <Link to="/" className={css.homeBtn}>
-        Go home
-      </Link>
-    </div>
+    <Section>
+      <div className={css.container}>
+        <h2 className={css.title}>404</h2>
+        <p className={css.text}>Ooops! Page Not Found!</p>
+        <p className={css.text}>
+          ⏳ You will be automatically redirected to Home Page for {seconds}{" "}
+          seconds...
+        </p>
+        <Link to="/" className={css.homeBtn}>
+          Go home
+        </Link>
+      </div>
+    </Section>
   );
 };
