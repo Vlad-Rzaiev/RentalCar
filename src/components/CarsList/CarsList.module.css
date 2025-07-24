@@ -1,6 +1,36 @@
 .list {
-  max-width: 343px;
+  max-width: 276px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 48px;
+  margin-bottom: 80px;
+}
+
+.listItem {
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .list {
+    max-width: 584px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 32px;
+    row-gap: 48px;
+  }
+
+  .listItem {
+    width: calc((100% - 32px) / 2);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .list {
+    max-width: 1200px;
+  }
+
+  .listItem {
+    width: calc((100% - 96px) / 4);
+  }
 }

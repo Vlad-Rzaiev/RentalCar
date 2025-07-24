@@ -22,6 +22,12 @@ const slice = createSlice({
     error: null,
   },
 
+  reducers: {
+    setPage(state, { payload }) {
+      state.page = payload;
+    },
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchCars.pending, handlePending)
@@ -31,12 +37,13 @@ const slice = createSlice({
         state.items = append ? [...state.items, ...cars] : cars;
 
         state.totalCars = totalCars;
-        state.page = page;
         state.totalPages = totalPages;
         state.isLoading = false;
       })
       .addCase(fetchCars.rejected, handleRejected);
   },
 });
+
+export const { setPage } = slice.actions;
 
 export default slice.reducer;

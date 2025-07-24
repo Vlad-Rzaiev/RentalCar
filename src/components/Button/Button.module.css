@@ -1,11 +1,13 @@
 .btn {
   display: inline-block;
+  text-align: center;
   font-weight: 600;
   line-height: 125%;
   color: #fff;
   background-color: #3470ff;
   border: none;
   border-radius: 12px;
+  height: 44px;
   margin: 0 auto;
   transition: background-color 250ms linear;
 }
@@ -16,9 +18,29 @@
 }
 
 .small {
+  width: 156px;
   padding: 12px 51px;
 }
 
 .large {
-  padding: 12px 99px;
+  width: 276px;
+  padding: 12px 88px;
+}
+
+.loadMore {
+  color: #101828;
+  border: 1px solid #3470ff;
+  background-color: transparent;
+  width: 156px;
+  padding: 12px 35px;
+  transition:
+    border-color 250ms linear,
+    transform 250ms linear;
+}
+
+.loadMore:hover,
+.loadMore:focus {
+  background-color: transparent;
+  transform: scale(1.04);
+  border-color: #0b44cd;
 }

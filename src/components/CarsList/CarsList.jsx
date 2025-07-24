@@ -8,7 +8,7 @@ export const CarsList = () => {
   return (
     <ul className={styles.list}>
       {cars.map((car) => (
-        <li key={car.id}>
+        <li className={styles.listItem} key={car.id}>
           <CarCard car={car} />
         </li>
       ))}

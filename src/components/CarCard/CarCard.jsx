@@ -1,3 +1,5 @@
+import { Button } from "../Button/Button";
+import { FavoriteIcon } from "../FavoriteIcon/FavoriteIcon";
 import clsx from "clsx";
 import styles from "./CarCard.module.css";
 
@@ -6,6 +8,8 @@ export const CarCard = ({ car }) => {
 
   return (
     <>
+      <FavoriteIcon carId={car.id} />
+
       <img className={styles.img} src={car.img} />
 
       <div className={styles.descWrapper}>
@@ -18,13 +22,19 @@ export const CarCard = ({ car }) => {
         >{`$${car.rentalPrice}`}</p>
       </div>
 
-      <div className={styles.addressWrapper}>
-        <p className={styles.address}>
-          {splitAddress[3]} | {splitAddress[4]} | {car.rentalCompany} |
-          <br />
-          {car.type} | {car.mileage} km
-        </p>
+      <div className={styles.infoBlock}>
+        <ul className={styles.infoList}>
+          <li>{splitAddress[3]}</li>
+          <li>{splitAddress[4]}</li>
+          <li>{car.rentalCompany}</li>
+        </ul>
+        <ul className={clsx(styles.infoList, styles.withoutLastAfter)}>
+          <li>{car.type}</li>
+          <li>{car.mileage} km</li>
+        </ul>
       </div>
+
+      <Button btnText="Read more" btnSize="large" to={`/catalog/${car.id}`} />
     </>
   );
 };
