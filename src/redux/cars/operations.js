@@ -14,3 +14,19 @@ export const fetchCars = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllCarsForFilters = createAsyncThunk(
+  "cars/fetchAllForFilters",
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const totalCars = state.cars.totalCars;
+    try {
+      const { data } = await axios.get("/cars", {
+        params: { limit: totalCars },
+      });
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);

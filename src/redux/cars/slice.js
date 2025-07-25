@@ -1,24 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCars } from "./operations";
+import { fetchAllCarsForFilters, fetchCars } from "./operations";
 
-const handlePending = (state) => {
-  state.isLoading = true;
+const handlePending = (state, action) => {
+  const isLoadMore = action.meta?.arg?.page > 1;
+  if (isLoadMore) {
+    state.isLoadingMore = true;
+  } else {
+    state.isLoading = true;
+  }
+
   state.error = null;
 };
 
 const handleRejected = (state, { payload }) => {
-  state.isLoading = false;
   state.error = payload;
+  state.isLoading = false;
+  state.isLoadingMore = false;
 };
 
 const slice = createSlice({
   name: "cars",
   initialState: {
     items: [],
+    prices: [],
     page: 1,
     totalPages: 0,
     totalCars: 0,
     isLoading: false,
+    isLoadingMore: false,
     error: null,
   },
 
@@ -39,8 +48,20 @@ const slice = createSlice({
         state.totalCars = totalCars;
         state.totalPages = totalPages;
         state.isLoading = false;
+        state.isLoadingMore = false;
       })
-      .addCase(fetchCars.rejected, handleRejected);
+      .addCase(fetchCars.rejected, handleRejected)
+      .addCase(fetchAllCarsForFilters.fulfilled, (state, { payload }) => {
+        const sortedPrices = [
+          ...new Set(payload.cars.map((car) => car.rentalPrice)),
+        ]
+          .map(Number)
+          .sort((a, b) => a - b);
+        state.prices = sortedPrices;
+      })
+      .addCase(fetchAllCarsForFilters.rejected, (state, { payload }) => {
+        state.error = payload;
+      });
   },
 });
 

@@ -1,6 +1,7 @@
 .list {
   max-width: 276px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   gap: 48px;
@@ -9,6 +10,7 @@
 
 .listItem {
   position: relative;
+  width: 276px;
 }
 
 @media screen and (min-width: 768px) {
@@ -19,18 +21,10 @@
     column-gap: 32px;
     row-gap: 48px;
   }
-
-  .listItem {
-    width: calc((100% - 32px) / 2);
-  }
 }
 
 @media screen and (min-width: 1440px) {
   .list {
     max-width: 1200px;
-  }
-
-  .listItem {
-    width: calc((100% - 96px) / 4);
   }
 }
