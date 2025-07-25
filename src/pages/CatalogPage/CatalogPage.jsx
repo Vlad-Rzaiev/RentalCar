@@ -48,7 +48,7 @@ export const CatalogPage = () => {
             value=""
             label="Car brand"
             placeholder="Choose a brand"
-            options={}
+{/*             options={} */}
           />
 
           <CarsList />
