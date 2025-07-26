@@ -40,6 +40,7 @@ export const CatalogPage = () => {
   useEffect(() => {
     return () => {
       dispatch(resetFilters());
+      dispatch(resetCars());
     };
   }, [dispatch]);
 
