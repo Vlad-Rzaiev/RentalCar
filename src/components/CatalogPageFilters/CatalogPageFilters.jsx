@@ -33,10 +33,10 @@ export const CatalogPageFilters = ({ onSearch }) => {
       dispatch(getBrands());
     }
 
-    if (!priceInitialized) {
-      dispatch(fetchAllCarsForFilters());
+    if (!priceInitialized && totalCars > 0) {
+      dispatch(fetchAllCarsForFilters(totalCars));
     }
-  }, [dispatch, brandsInitialized, priceInitialized]);
+  }, [dispatch, brandsInitialized, priceInitialized, totalCars]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
