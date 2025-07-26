@@ -6,8 +6,20 @@ axios.defaults.baseURL = "https://car-rental-api.goit.global";
 export const fetchCars = createAsyncThunk(
   "cars/fetchAll",
   async (params, thunkAPI) => {
+    const { page = 1, filters = {} } = params;
+
+    const cleanedFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== "")
+    );
+
     try {
-      const { data } = await axios.get("/cars", { params });
+      const { data } = await axios.get("/cars", {
+        params: {
+          page,
+          ...cleanedFilters,
+        },
+      });
+
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

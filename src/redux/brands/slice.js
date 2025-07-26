@@ -14,6 +14,7 @@ const slice = createSlice({
   initialState: {
     items: [],
     error: null,
+    brandsInitialized: false,
   },
 
   extraReducers: (builder) => {
@@ -21,6 +22,8 @@ const slice = createSlice({
       .addCase(getBrands.pending, handlePending)
       .addCase(getBrands.fulfilled, (state, { payload }) => {
         state.items = payload;
+
+        state.brandsInitialized = true;
       })
       .addCase(getBrands.rejected, handleRejected);
   },

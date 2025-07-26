@@ -23,9 +23,7 @@ export const Select = ({
         value={value}
         onChange={onChange}
       >
-        <option value="" disabled>
-          {placeholder}
-        </option>
+        <option value="">{placeholder}</option>
         {options.map((option, idx) => (
           <option key={idx} value={option}>
             {option}

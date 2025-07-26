@@ -29,11 +29,18 @@ const slice = createSlice({
     isLoading: false,
     isLoadingMore: false,
     error: null,
+    priceInitialized: false,
   },
 
   reducers: {
     setPage(state, { payload }) {
       state.page = payload;
+    },
+    resetCars(state) {
+      state.items = [];
+      state.page = 1;
+      state.totalPages = 0;
+      state.totalCars = 0;
     },
   },
 
@@ -52,12 +59,16 @@ const slice = createSlice({
       })
       .addCase(fetchCars.rejected, handleRejected)
       .addCase(fetchAllCarsForFilters.fulfilled, (state, { payload }) => {
+        if (state.prices.length > 0) return;
+
         const sortedPrices = [
           ...new Set(payload.cars.map((car) => car.rentalPrice)),
         ]
           .map(Number)
           .sort((a, b) => a - b);
         state.prices = sortedPrices;
+
+        state.priceInitialized = true;
       })
       .addCase(fetchAllCarsForFilters.rejected, (state, { payload }) => {
         state.error = payload;
@@ -65,6 +76,6 @@ const slice = createSlice({
   },
 });
 
-export const { setPage } = slice.actions;
+export const { setPage, resetCars } = slice.actions;
 
 export default slice.reducer;

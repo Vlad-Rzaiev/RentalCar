@@ -1,38 +1,42 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrands } from "../../redux/brands/operations";
-import { fetchAllCarsForFilters, fetchCars } from "../../redux/cars/operations";
-import { selectBrands } from "../../redux/brands/selectors";
-import { selectPrices, selectTotalCars } from "../../redux/cars/selectors";
-import { resetFilters, setFilters } from "../../redux/filters/slice";
-import { setPage } from "../../redux/cars/slice";
-import { selectFilters } from "../../redux/filters/selectors";
 import { Select } from "../Select/Select";
-import { CarMileageInputs } from "../CarMileageInputs/CarMileageInputs";
 import { Button } from "../Button/Button";
+import { CarMileageInputs } from "../CarMileageInputs/CarMileageInputs";
+import { fetchAllCarsForFilters } from "../../redux/cars/operations";
+import { getBrands } from "../../redux/brands/operations";
+import {
+  selectBrands,
+  selectBrandsInitialized,
+} from "../../redux/brands/selectors";
+import {
+  selectPriceInitialized,
+  selectPrices,
+  selectTotalCars,
+} from "../../redux/cars/selectors";
+import { selectFilters } from "../../redux/filters/selectors";
+import { setFilters } from "../../redux/filters/slice";
 import styles from "./CatalogPageFilters.module.css";
 
-export const CatalogPageFilters = () => {
+export const CatalogPageFilters = ({ onSearch }) => {
   const dispatch = useDispatch();
-  const [rentalPriceRequested, setRentalPriceRequested] = useState(false);
-  const [brandsRequested, setBrandsRequested] = useState(false);
 
   const brands = useSelector(selectBrands);
   const filters = useSelector(selectFilters);
   const totalCars = useSelector(selectTotalCars);
   const prices = useSelector(selectPrices);
+  const brandsInitialized = useSelector(selectBrandsInitialized);
+  const priceInitialized = useSelector(selectPriceInitialized);
 
   useEffect(() => {
-    if (!brandsRequested) {
+    if (!brandsInitialized) {
       dispatch(getBrands());
-      setBrandsRequested(true);
     }
 
-    if (totalCars > 0 && !rentalPriceRequested) {
+    if (!priceInitialized) {
       dispatch(fetchAllCarsForFilters());
-      setRentalPriceRequested(true);
     }
-  }, [dispatch, totalCars]);
+  }, [dispatch, brandsInitialized, priceInitialized]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,15 +49,16 @@ export const CatalogPageFilters = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleClickSearch = (e) => {
     e.preventDefault();
 
-    dispatch(setPage(1));
-    dispatch(fetchCars(filters));
+    onSearch();
+
+    e.currentTarget.blur();
   };
 
   return (
-    <form action="">
+    <form>
       <div className={styles.wrapper}>
         <Select
           name="brand"
@@ -79,7 +84,7 @@ export const CatalogPageFilters = () => {
           valueTo={filters.maxMileage}
         />
 
-        <Button type="submit" btnText="Search" onClick={handleSearchClick} />
+        <Button type="submit" btnText="Search" onClick={handleClickSearch} />
       </div>
     </form>
   );
