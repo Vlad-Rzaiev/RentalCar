@@ -16,8 +16,10 @@ const validationSchema = Yup.object().shape({
 
   email: Yup.string()
     .trim()
-    .email("Invalid email address")
-    .required("Email is required"),
+    .required("Email is required")
+    .test("is-valid-email", "Invalid email address", (value) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
+    ),
 
   bookDate: Yup.date().nullable().required("Booking date is required"),
 
