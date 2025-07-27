@@ -1,0 +1,13 @@
+.carImg {
+  border-radius: 19px;
+  margin-bottom: 40px;
+}
+
+@media screen and (min-width: 1440px) {
+  .detailsWrapper {
+    display: grid;
+    grid-template-columns: 640px 488px;
+    column-gap: 72px;
+    align-items: start;
+  }
+}

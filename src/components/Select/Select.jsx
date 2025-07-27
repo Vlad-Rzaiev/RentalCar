@@ -10,6 +10,7 @@ export const Select = ({
   onChange,
 }) => {
   const id = useId();
+
   return (
     <div className={styles.wrapper}>
       <label className={styles.label} htmlFor={id + name}>

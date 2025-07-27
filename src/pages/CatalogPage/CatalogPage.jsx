@@ -18,6 +18,7 @@ import { fetchCars } from "../../redux/cars/operations";
 import { resetCars, setPage } from "../../redux/cars/slice";
 import { selectFilters } from "../../redux/filters/selectors";
 import { resetFilters } from "../../redux/filters/slice";
+import toast from "react-hot-toast";
 import styles from "./CatalogPage.module.css";
 
 export const CatalogPage = () => {
@@ -52,7 +53,11 @@ export const CatalogPage = () => {
   const handleClickSearch = () => {
     dispatch(resetCars());
     dispatch(setPage(1));
-    dispatch(fetchCars({ page: 1, filters }));
+    dispatch(fetchCars({ page: 1, filters })).then((action) => {
+      if (action.payload?.cars?.length === 0) {
+        toast.error("No cars found for the selected filters.");
+      }
+    });
     setActiveFilters(filters);
   };
 
@@ -70,13 +75,15 @@ export const CatalogPage = () => {
             <CarsList />
 
             {page < totalPages && !isLoading && (
-              <Button
-                btnText="Load more"
-                btnSize="loadMore"
-                onClick={handleClickLoadMore}
-              />
+              <>
+                <Button
+                  btnText="Load more"
+                  btnSize="loadMore"
+                  onClick={handleClickLoadMore}
+                />
+                {isLoadMore && <Loader variant="inlineLoader" />}
+              </>
             )}
-            {isLoadMore && <Loader />}
           </div>
         )}
       </Container>

@@ -1,0 +1,43 @@
+.descWrap {
+  margin-bottom: 68px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 133%;
+  color: #101828;
+  margin-bottom: 8px;
+}
+
+.locationWrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.locationIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.locationText,
+.mileage,
+.description {
+  font-weight: 500;
+  line-height: 125%;
+  color: #101828;
+}
+
+.mileage {
+  margin-left: 12px;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 133%;
+  color: #3470ff;
+  margin-bottom: 32px;
+}

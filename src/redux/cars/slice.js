@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllCarsForFilters, fetchCars } from "./operations";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { fetchAllCarsForFilters, fetchCarById, fetchCars } from "./operations";
 
 const handlePending = (state, action) => {
   const isLoadMore = action.meta?.arg?.page > 1;
@@ -10,6 +10,8 @@ const handlePending = (state, action) => {
   }
 
   state.error = null;
+
+  state.currentCar = null;
 };
 
 const handleRejected = (state, { payload }) => {
@@ -30,6 +32,7 @@ const slice = createSlice({
     isLoadingMore: false,
     error: null,
     priceInitialized: false,
+    currentCar: null,
   },
 
   reducers: {
@@ -72,7 +75,13 @@ const slice = createSlice({
       })
       .addCase(fetchAllCarsForFilters.rejected, (state, { payload }) => {
         state.error = payload;
-      });
+      })
+      .addCase(fetchCarById.pending, handlePending)
+      .addCase(fetchCarById.fulfilled, (state, { payload }) => {
+        state.currentCar = payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchCarById.rejected, handleRejected);
   },
 });
 

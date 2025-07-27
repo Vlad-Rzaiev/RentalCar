@@ -60,31 +60,35 @@ export const CatalogPageFilters = ({ onSearch }) => {
   return (
     <form>
       <div className={styles.wrapper}>
-        <Select
-          name="brand"
-          value={filters.brand}
-          label="Car brand"
-          placeholder="Choose a brand"
-          options={brands}
-          onChange={handleChange}
-        />
+        <div className={styles.selectsWrapper}>
+          <Select
+            name="brand"
+            value={filters.brand}
+            label="Car brand"
+            placeholder="Choose a brand"
+            options={brands}
+            onChange={handleChange}
+          />
 
-        <Select
-          name="rentalPrice"
-          value={filters.rentalPrice}
-          label="Price/ 1 hour"
-          placeholder="Choose a price"
-          options={prices}
-          onChange={handleChange}
-        />
+          <Select
+            name="rentalPrice"
+            value={filters.rentalPrice}
+            label="Price/ 1 hour"
+            placeholder="Choose a price"
+            options={prices}
+            onChange={handleChange}
+          />
+        </div>
 
-        <CarMileageInputs
-          onChange={handleChange}
-          valueFrom={filters.minMileage}
-          valueTo={filters.maxMileage}
-        />
+        <div className={styles.milesBtnWrapper}>
+          <CarMileageInputs
+            onChange={handleChange}
+            valueFrom={filters.minMileage}
+            valueTo={filters.maxMileage}
+          />
 
-        <Button type="submit" btnText="Search" onClick={handleClickSearch} />
+          <Button type="submit" btnText="Search" onClick={handleClickSearch} />
+        </div>
       </div>
     </form>
   );
