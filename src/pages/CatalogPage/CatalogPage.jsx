@@ -21,7 +21,7 @@ import { resetFilters } from "../../redux/filters/slice";
 import toast from "react-hot-toast";
 import styles from "./CatalogPage.module.css";
 
-export const CatalogPage = () => {
+const CatalogPage = () => {
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);
   const isLoading = useSelector(selectLoading);
@@ -90,3 +90,5 @@ export const CatalogPage = () => {
     </Section>
   );
 };
+
+export default CatalogPage;

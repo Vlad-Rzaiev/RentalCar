@@ -1,16 +1,21 @@
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AppBar } from "../components/AppBar/AppBar";
 import { Layout } from "../components/Layout/Layout";
-import { HomePage } from "../pages/HomePage/HomePage";
-import { CatalogPage } from "../pages/CatalogPage/CatalogPage";
-import { CarDetailsPage } from "../pages/CarDetailsPage/CarDetailsPage";
-import { NotFoundPage } from "../pages/NotFoundPage/NotFoundPage";
 import { Toaster } from "react-hot-toast";
+
+const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
+const CatalogPage = lazy(() => import("../pages/CatalogPage/CatalogPage"));
+const CarDetailsPage = lazy(
+  () => import("../pages/CarDetailsPage/CarDetailsPage")
+);
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage/NotFoundPage"));
 
 const App = () => {
   return (
     <>
       <AppBar />
+
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -20,6 +25,7 @@ const App = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
+
       <Toaster
         position="top-center"
         toastOptions={{

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import css from "./NotFoundPage.module.css";
 import Section from "../../components/Section/Section";
 
-export const NotFoundPage = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(10);
 
@@ -38,3 +38,5 @@ export const NotFoundPage = () => {
     </Section>
   );
 };
+
+export default NotFoundPage;

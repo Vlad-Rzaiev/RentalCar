@@ -11,7 +11,7 @@ import { CarFeatures } from "../../components/CarFeatures/CarFeatures";
 import { BookForm } from "../../components/BookForm/BookForm";
 import styles from "./CarDetailsPage.module.css";
 
-export const CarDetailsPage = () => {
+const CarDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -48,3 +48,5 @@ export const CarDetailsPage = () => {
     </Section>
   );
 };
+
+export default CarDetailsPage;
