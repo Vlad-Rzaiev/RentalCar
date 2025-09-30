@@ -1,4 +1,6 @@
-.icon {
+.btn {
+  border: none;
+  background-color: transparent;
   position: absolute;
   top: 16px;
   right: 16px;
@@ -8,7 +10,7 @@
   transition: transform 250ms linear;
 }
 
-.icon:hover,
-.icon:focus {
+.btn:hover,
+.btn:focus {
   transform: scale(1.2);
 }

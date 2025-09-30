@@ -13,10 +13,10 @@ export const CarCard = ({ car }) => {
       <img className={styles.img} src={car.img} />
 
       <div className={styles.descWrapper}>
-        <p className={styles.desc}>
+        <h2 className={styles.desc}>
           {car.brand} <span className={styles.model}>{car.model}</span>,{" "}
           {car.year}
-        </p>
+        </h2>
         <p
           className={clsx(styles.desc, styles.price)}
         >{`$${car.rentalPrice}`}</p>

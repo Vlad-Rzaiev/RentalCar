@@ -12,7 +12,8 @@
 
 .desc {
   font-weight: 500;
-  line-height: 125%;
+  font-size: 16px;
+  line-height: 20px;
   color: #101828;
   max-width: 220px;
   white-space: nowrap;
