@@ -6,13 +6,18 @@
   margin-bottom: 8px;
 }
 
-.select {
+:global(.cs) {
+  position: relative;
+}
+
+:global(.cs__control) {
+  position: relative;
   width: 100%;
+  min-width: 204px;
   font-weight: 500;
   font-size: 16px;
   line-height: 125%;
   color: #101828;
-  cursor: pointer;
   outline: none;
   border: none;
   border-radius: 12px;
@@ -22,11 +27,67 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  background-image: url("../../assets/icons/chevronDown.svg");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
 }
 
-@media screen and (min-width: 1440px) {
+:global(.cs__control):hover {
+  cursor: pointer;
+}
+
+:global(.cs__control)::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  width: 20px;
+  height: 20px;
+  transform: rotate(0deg);
+  background-image: url("../../assets/icons/chevronDown.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 250ms linear;
+}
+
+:global(.cs__control--menu-is-open)::after {
+  transform: rotate(180deg);
+}
+
+:global(.cs__menu) {
+  border: 1px solid #f7f7f7;
+  border-radius: 12px;
+  width: 204px;
+  max-height: 272px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 36px 0 rgba(0, 0, 0, 0.02);
+  padding: 14px 8px 14px 18px;
+  transform: translateY(4px);
+}
+
+:global(.cs__menu-list) {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #8d929a;
+}
+
+:global(.cs__option) {
+  transition: color 250ms linear;
+}
+
+:global(.cs__option):hover,
+:global(.cs__option):focus {
+  cursor: pointer;
+  color: #101828;
+}
+
+:global(.cs__option:not(:last-child)) {
+  margin-bottom: 8px;
+}
+
+:global(.cs__menu-list::-webkit-scrollbar) {
+  width: 8px;
+}
+
+:global(.cs__menu-list::-webkit-scrollbar-thumb) {
+  background-color: #dadde1;
+  border-radius: 10px;
 }

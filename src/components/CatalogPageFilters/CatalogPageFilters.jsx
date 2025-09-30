@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Select } from "../Select/Select";
+import { CustomSelect } from "../Select/Select";
 import { Button } from "../Button/Button";
 import { CarMileageInputs } from "../CarMileageInputs/CarMileageInputs";
 import { fetchAllCarsForFilters } from "../../redux/cars/operations";
@@ -61,7 +61,7 @@ export const CatalogPageFilters = ({ onSearch }) => {
     <form>
       <div className={styles.wrapper}>
         <div className={styles.selectsWrapper}>
-          <Select
+          <CustomSelect
             name="brand"
             value={filters.brand}
             label="Car brand"
@@ -70,7 +70,7 @@ export const CatalogPageFilters = ({ onSearch }) => {
             onChange={handleChange}
           />
 
-          <Select
+          <CustomSelect
             name="rentalPrice"
             value={filters.rentalPrice}
             label="Price/ 1 hour"
