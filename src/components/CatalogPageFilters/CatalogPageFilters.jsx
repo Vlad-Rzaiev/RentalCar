@@ -3,19 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { CustomSelect } from "../Select/Select";
 import { Button } from "../Button/Button";
 import { CarMileageInputs } from "../CarMileageInputs/CarMileageInputs";
-import { fetchAllCarsForFilters } from "../../redux/cars/operations";
 import { getBrands } from "../../redux/brands/operations";
 import {
   selectBrands,
   selectBrandsInitialized,
 } from "../../redux/brands/selectors";
-import {
-  selectPriceInitialized,
-  selectPrices,
-  selectTotalCars,
-} from "../../redux/cars/selectors";
 import { selectFilters } from "../../redux/filters/selectors";
 import { setFilters } from "../../redux/filters/slice";
+import { prices } from "../../constants/carPrices";
 import styles from "./CatalogPageFilters.module.css";
 
 export const CatalogPageFilters = ({ onSearch }) => {
@@ -23,20 +18,13 @@ export const CatalogPageFilters = ({ onSearch }) => {
 
   const brands = useSelector(selectBrands);
   const filters = useSelector(selectFilters);
-  const totalCars = useSelector(selectTotalCars);
-  const prices = useSelector(selectPrices);
   const brandsInitialized = useSelector(selectBrandsInitialized);
-  const priceInitialized = useSelector(selectPriceInitialized);
 
   useEffect(() => {
     if (!brandsInitialized) {
       dispatch(getBrands());
     }
-
-    if (!priceInitialized && totalCars > 0) {
-      dispatch(fetchAllCarsForFilters(totalCars));
-    }
-  }, [dispatch, brandsInitialized, priceInitialized, totalCars]);
+  }, [dispatch, brandsInitialized]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

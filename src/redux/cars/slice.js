@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { fetchAllCarsForFilters, fetchCarById, fetchCars } from "./operations";
+import { fetchCarById, fetchCars } from "./operations";
 
 const handlePending = (state, action) => {
   const isLoadMore = action.meta?.arg?.page > 1;
@@ -24,14 +24,12 @@ const slice = createSlice({
   name: "cars",
   initialState: {
     items: [],
-    prices: [],
     page: 1,
     totalPages: 0,
     totalCars: 0,
     isLoading: false,
     isLoadingMore: false,
     error: null,
-    priceInitialized: false,
     currentCar: null,
   },
 
@@ -61,21 +59,6 @@ const slice = createSlice({
         state.isLoadingMore = false;
       })
       .addCase(fetchCars.rejected, handleRejected)
-      .addCase(fetchAllCarsForFilters.fulfilled, (state, { payload }) => {
-        if (state.prices.length > 0) return;
-
-        const sortedPrices = [
-          ...new Set(payload.cars.map((car) => car.rentalPrice)),
-        ]
-          .map(Number)
-          .sort((a, b) => a - b);
-        state.prices = sortedPrices;
-
-        state.priceInitialized = true;
-      })
-      .addCase(fetchAllCarsForFilters.rejected, (state, { payload }) => {
-        state.error = payload;
-      })
       .addCase(fetchCarById.pending, handlePending)
       .addCase(fetchCarById.fulfilled, (state, { payload }) => {
         state.currentCar = payload;

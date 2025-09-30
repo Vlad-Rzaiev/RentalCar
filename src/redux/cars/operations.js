@@ -27,20 +27,6 @@ export const fetchCars = createAsyncThunk(
   }
 );
 
-export const fetchAllCarsForFilters = createAsyncThunk(
-  "cars/fetchAllForFilters",
-  async (totalCars, thunkAPI) => {
-    try {
-      const { data } = await axios.get("/cars", {
-        params: { limit: totalCars },
-      });
-      return data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
-    }
-  }
-);
-
 export const fetchCarById = createAsyncThunk(
   "cars/fetchCarById",
   async (id, thunkAPI) => {
