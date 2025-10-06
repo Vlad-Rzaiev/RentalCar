@@ -8,6 +8,7 @@ export const Button = ({
   btnText,
   btnSize = "small",
   onClick,
+  disabled = false,
 }) => {
   const sizeStyle = styles[btnSize];
 
@@ -22,8 +23,9 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={clsx(styles.btn, sizeStyle)}
+      className={clsx(styles.btn, sizeStyle, disabled && styles.disabledBtn)}
       onClick={onClick}
+      disabled={disabled}
     >
       {btnText}
     </button>

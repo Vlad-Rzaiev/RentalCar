@@ -23,6 +23,7 @@
 
 .fieldWrapper {
   position: relative;
+  height: 72px;
 }
 
 .input {
@@ -35,7 +36,6 @@
   border: none;
   border-radius: 12px;
   padding: 14px 20px;
-  margin-bottom: 16px;
 }
 
 .input::placeholder {
@@ -46,17 +46,35 @@
 
 .errorMessages {
   position: absolute;
-  top: 16px;
-  right: 12px;
+  top: 50px;
+  left: 8px;
   color: red;
   font-size: 12px;
   font-weight: 500;
   transition: opacity 250ms linear;
+  z-index: 999;
+}
+
+.dateWrapper {
+  display: flex;
+}
+
+.dateFieldWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.areaWrapper {
+  position: relative;
+  height: 112px;
 }
 
 .textarea {
   height: 88px;
-  margin-bottom: 24px;
+}
+
+.areaErrorMessages {
+  top: 90px;
 }
 
 .btnWrap {

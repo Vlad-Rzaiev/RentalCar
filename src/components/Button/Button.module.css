@@ -9,7 +9,9 @@
   border-radius: 12px;
   height: 44px;
   margin: 0 auto;
-  transition: background-color 250ms linear;
+  transition:
+    background-color 250ms linear,
+    color 250ms linear;
 }
 
 .btn:hover,
@@ -43,4 +45,17 @@
   background-color: transparent;
   transform: scale(1.04);
   border-color: #0b44cd;
+}
+
+.disabledBtn {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+}
+
+.btn:disabled:hover,
+.btn:disabled:focus {
+  background-color: #e5e7eb;
+  color: #9ca3af;
 }

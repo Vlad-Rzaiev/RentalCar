@@ -1,3 +1,8 @@
+.datePickerWrapper {
+  height: 72px;
+  z-index: 1001;
+}
+
 .input {
   font-weight: 500;
   font-size: 16px;
@@ -8,7 +13,6 @@
   border: none;
   border-radius: 12px;
   padding: 14px 20px;
-  margin-bottom: 16px;
 }
 
 .input::placeholder {
@@ -16,6 +20,18 @@
   line-height: 125%;
   color: #8d929a;
 }
+
+.startInput {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 1px solid #dadde1;
+}
+
+.endInput {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
 .datePickerWrapper {
   position: relative;
 }

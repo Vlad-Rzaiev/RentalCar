@@ -21,7 +21,15 @@ const validationSchema = Yup.object().shape({
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
     ),
 
-  bookDate: Yup.date().nullable().required("Booking date is required"),
+  startBookDate: Yup.date().nullable().required("Start date is required"),
+
+  endBookDate: Yup.date()
+    .nullable()
+    .required("End date is required")
+    .min(
+      Yup.ref("startBookDate"),
+      "End date must be the same or after start date"
+    ),
 
   comment: Yup.string()
     .trim()
@@ -29,33 +37,31 @@ const validationSchema = Yup.object().shape({
 });
 
 export const BookForm = () => {
-  const [selected, setSelected] = useState(null);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const calendarRef = useRef();
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+  const [showCalendarFrom, setShowCalendarFrom] = useState(false);
+  const [showCalendarTo, setShowCalendarTo] = useState(false);
+  const calendarRefFrom = useRef();
+  const calendarRefTo = useRef();
 
   const initialValues = {
     name: "",
     email: "",
-    bookDate: null,
+    startBookDate: null,
+    endBookDate: null,
     comment: "",
-  };
-
-  const handleSubmit = (values, { resetForm }) => {
-    try {
-      toast.success("Your car has been successfully booked!");
-
-      resetForm();
-
-      setSelected(null);
-    } catch (error) {
-      toast.error("Something went wrong. Please try again later.");
-    }
   };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (calendarRef.current && !calendarRef.current.contains(e.target)) {
-        setShowCalendar(false);
+      if (
+        calendarRefFrom.current &&
+        !calendarRefFrom.current.contains(e.target)
+      ) {
+        setShowCalendarFrom(false);
+      }
+      if (calendarRefTo.current && !calendarRefTo.current.contains(e.target)) {
+        setShowCalendarTo(false);
       }
     };
 
@@ -63,13 +69,28 @@ export const BookForm = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSubmit = (values, { resetForm }) => {
+    try {
+      console.log(values);
+      toast.success("Your car has been successfully booked!");
+
+      resetForm();
+
+      setFrom(null);
+      setTo(null);
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.");
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      validateOnMount
     >
-      {({ setFieldValue }) => (
+      {({ setFieldValue, values, isValid, isSubmitting, dirty }) => (
         <Form className={styles.form}>
           <h2 className={styles.title}>Book your car now</h2>
           <p className={styles.text}>
@@ -104,33 +125,82 @@ export const BookForm = () => {
             />
           </div>
 
-          <div className={styles.fieldWrapper}>
-            <CustomDayPicker
-              selected={selected}
-              setSelected={(date) => {
-                setSelected(date);
-                setFieldValue("bookDate", date);
-              }}
-              showCalendar={showCalendar}
-              setShowCalendar={setShowCalendar}
-              calendarRef={calendarRef}
+          <div className={styles.dateWrapper}>
+            <div className={styles.dateFieldWrapper}>
+              <CustomDayPicker
+                name="startBookDate"
+                label="Booking date from*"
+                selected={from}
+                setSelected={(date) => {
+                  setFrom(date);
+                  setFieldValue("startBookDate", date);
+                  if (
+                    values.endBookDate &&
+                    date &&
+                    new Date(values.endBookDate) < new Date(date)
+                  ) {
+                    setTo(null);
+                    setFieldValue("endBookDate", null);
+                  }
+                }}
+                showCalendar={showCalendarFrom}
+                setShowCalendar={setShowCalendarFrom}
+                calendarRef={calendarRefFrom}
+                inputClassName="startInput"
+                minDate={new Date()}
+                maxDate={to || undefined}
+              />
+              <ErrorMessage
+                className={styles.errorMessages}
+                name="startBookDate"
+                component="span"
+              />
+            </div>
+
+            <div className={styles.dateFieldWrapper}>
+              <CustomDayPicker
+                name="endBookDate"
+                label="Booking date to*"
+                selected={to}
+                setSelected={(date) => {
+                  setTo(date);
+                  setFieldValue("endBookDate", date);
+                }}
+                showCalendar={showCalendarTo}
+                setShowCalendar={setShowCalendarTo}
+                calendarRef={calendarRefTo}
+                inputClassName="endInput"
+                minDate={from || new Date()}
+              />
+              <ErrorMessage
+                className={styles.errorMessages}
+                name="endBookDate"
+                component="span"
+              />
+            </div>
+          </div>
+
+          <div className={styles.areaWrapper}>
+            <Field
+              className={clsx(styles.input, styles.textarea)}
+              name="comment"
+              as="textarea"
+              placeholder="Comment"
             />
             <ErrorMessage
-              className={styles.errorMessages}
-              name="bookDate"
+              className={clsx(styles.errorMessages, styles.areaErrorMessages)}
+              name="comment"
               component="span"
             />
           </div>
 
-          <Field
-            className={clsx(styles.input, styles.textarea)}
-            name="comment"
-            as="textarea"
-            placeholder="Comment"
-          />
-
           <div className={styles.btnWrap}>
-            <Button type="submit" btnText="Send" btnSize="small" />
+            <Button
+              type="submit"
+              btnText="Send"
+              btnSize="small"
+              disabled={!isValid || isSubmitting || !dirty}
+            />
           </div>
         </Form>
       )}
