@@ -1,7 +1,14 @@
 import clsx from "clsx";
 import { DayPicker } from "react-day-picker";
 import { enGB } from "date-fns/locale";
-import { endOfDay, format, isBefore, startOfDay, startOfToday } from "date-fns";
+import {
+  endOfDay,
+  format,
+  isAfter,
+  isBefore,
+  startOfDay,
+  startOfToday,
+} from "date-fns";
 import styles from "./CustomDayPicker.module.css";
 
 export const CustomDayPicker = ({
