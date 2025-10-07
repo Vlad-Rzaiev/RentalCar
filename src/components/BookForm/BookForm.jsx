@@ -1,8 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import { useEffect, useRef, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { SuccessBookedModal } from "../SuccessBookedModal/SuccessBookedModal";
 import { CustomDayPicker } from "../CustomDayPicker/CustomDayPicker";
 import { Button } from "../Button/Button";
 import styles from "./BookForm.module.css";
@@ -37,6 +38,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export const BookForm = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [showCalendarFrom, setShowCalendarFrom] = useState(false);
@@ -65,14 +67,23 @@ export const BookForm = () => {
       }
     };
 
+    if (openModal) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.classList.remove("no-scroll");
+    };
+  }, [openModal]);
 
   const handleSubmit = (values, { resetForm }) => {
     try {
-      console.log(values);
-      toast.success("Your car has been successfully booked!");
+      setOpenModal(true);
+      document.body.classList.remove("modal-closing");
 
       resetForm();
 
@@ -83,127 +94,135 @@ export const BookForm = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    document.body.classList.add("modal-closing");
+
+    setTimeout(() => {
+      setOpenModal(false);
+      document.body.classList.remove("modal-closing");
+    }, 250);
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-      validateOnMount
-    >
-      {({ setFieldValue, values, isValid, isSubmitting, dirty }) => (
-        <Form className={styles.form}>
-          <h2 className={styles.title}>Book your car now</h2>
-          <p className={styles.text}>
-            Stay connected! We are always ready to help you.
-          </p>
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        validateOnMount
+      >
+        {({ setFieldValue, values }) => (
+          <Form className={styles.form}>
+            <h2 className={styles.title}>Book your car now</h2>
+            <p className={styles.text}>
+              Stay connected! We are always ready to help you.
+            </p>
 
-          <div className={styles.fieldWrapper}>
-            <Field
-              className={styles.input}
-              name="name"
-              type="text"
-              placeholder="Name*"
-            />
-            <ErrorMessage
-              className={styles.errorMessages}
-              name="name"
-              component="span"
-            />
-          </div>
-
-          <div className={styles.fieldWrapper}>
-            <Field
-              className={styles.input}
-              name="email"
-              type="text"
-              placeholder="Email*"
-            />
-            <ErrorMessage
-              className={styles.errorMessages}
-              name="email"
-              component="span"
-            />
-          </div>
-
-          <div className={styles.dateWrapper}>
-            <div className={styles.dateFieldWrapper}>
-              <CustomDayPicker
-                name="startBookDate"
-                label="Booking date from*"
-                selected={from}
-                setSelected={(date) => {
-                  setFrom(date);
-                  setFieldValue("startBookDate", date);
-                  if (
-                    values.endBookDate &&
-                    date &&
-                    new Date(values.endBookDate) < new Date(date)
-                  ) {
-                    setTo(null);
-                    setFieldValue("endBookDate", null);
-                  }
-                }}
-                showCalendar={showCalendarFrom}
-                setShowCalendar={setShowCalendarFrom}
-                calendarRef={calendarRefFrom}
-                inputClassName="startInput"
-                minDate={new Date()}
-                maxDate={to || undefined}
+            <div className={styles.fieldWrapper}>
+              <Field
+                className={styles.input}
+                name="name"
+                type="text"
+                placeholder="Name*"
               />
               <ErrorMessage
                 className={styles.errorMessages}
-                name="startBookDate"
+                name="name"
                 component="span"
               />
             </div>
 
-            <div className={styles.dateFieldWrapper}>
-              <CustomDayPicker
-                name="endBookDate"
-                label="Booking date to*"
-                selected={to}
-                setSelected={(date) => {
-                  setTo(date);
-                  setFieldValue("endBookDate", date);
-                }}
-                showCalendar={showCalendarTo}
-                setShowCalendar={setShowCalendarTo}
-                calendarRef={calendarRefTo}
-                inputClassName="endInput"
-                minDate={from || new Date()}
+            <div className={styles.fieldWrapper}>
+              <Field
+                className={styles.input}
+                name="email"
+                type="text"
+                placeholder="Email*"
               />
               <ErrorMessage
                 className={styles.errorMessages}
-                name="endBookDate"
+                name="email"
                 component="span"
               />
             </div>
-          </div>
 
-          <div className={styles.areaWrapper}>
-            <Field
-              className={clsx(styles.input, styles.textarea)}
-              name="comment"
-              as="textarea"
-              placeholder="Comment"
-            />
-            <ErrorMessage
-              className={clsx(styles.errorMessages, styles.areaErrorMessages)}
-              name="comment"
-              component="span"
-            />
-          </div>
+            <div className={styles.dateWrapper}>
+              <div className={styles.dateFieldWrapper}>
+                <CustomDayPicker
+                  name="startBookDate"
+                  label="Booking date from*"
+                  selected={from}
+                  setSelected={(date) => {
+                    setFrom(date);
+                    setFieldValue("startBookDate", date);
+                    if (
+                      values.endBookDate &&
+                      date &&
+                      new Date(values.endBookDate) < new Date(date)
+                    ) {
+                      setTo(null);
+                      setFieldValue("endBookDate", null);
+                    }
+                  }}
+                  showCalendar={showCalendarFrom}
+                  setShowCalendar={setShowCalendarFrom}
+                  calendarRef={calendarRefFrom}
+                  inputClassName="startInput"
+                  minDate={new Date()}
+                  maxDate={to || undefined}
+                />
+                <ErrorMessage
+                  className={styles.errorMessages}
+                  name="startBookDate"
+                  component="span"
+                />
+              </div>
 
-          <div className={styles.btnWrap}>
-            <Button
-              type="submit"
-              btnText="Send"
-              btnSize="small"
-              disabled={!isValid || isSubmitting || !dirty}
-            />
-          </div>
-        </Form>
-      )}
-    </Formik>
+              <div className={styles.dateFieldWrapper}>
+                <CustomDayPicker
+                  name="endBookDate"
+                  label="Booking date to*"
+                  selected={to}
+                  setSelected={(date) => {
+                    setTo(date);
+                    setFieldValue("endBookDate", date);
+                  }}
+                  showCalendar={showCalendarTo}
+                  setShowCalendar={setShowCalendarTo}
+                  calendarRef={calendarRefTo}
+                  inputClassName="endInput"
+                  minDate={from || new Date()}
+                />
+                <ErrorMessage
+                  className={styles.errorMessages}
+                  name="endBookDate"
+                  component="span"
+                />
+              </div>
+            </div>
+
+            <div className={styles.areaWrapper}>
+              <Field
+                className={clsx(styles.input, styles.textarea)}
+                name="comment"
+                as="textarea"
+                placeholder="Comment"
+              />
+              <ErrorMessage
+                className={clsx(styles.errorMessages, styles.areaErrorMessages)}
+                name="comment"
+                component="span"
+              />
+            </div>
+
+            <div className={styles.btnWrap}>
+              <Button type="submit" btnText="Send" btnSize="small" />
+            </div>
+          </Form>
+        )}
+      </Formik>
+
+      {openModal && <SuccessBookedModal handleCloseModal={handleCloseModal} />}
+    </>
   );
 };

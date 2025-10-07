@@ -66,3 +66,13 @@ body {
   background-color: #fff;
   color: #101828;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+@media (pointer: fine) {
+  body.no-scroll {
+    padding-right: calc(100vw - 100%);
+  }
+}
